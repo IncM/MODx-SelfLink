@@ -1,0 +1,6 @@
+﻿Changelog for selfLink
+
+Polls 0.1-rc1 (March 8, 2011)
+====================================
+- Initial project
+- Initial changelog started
