@@ -1,10 +1,12 @@
 --------------------
 Snippet: SelfLink
 --------------------
-Version: 0.1-rc1
-Released: March 8, 2011
+Version: 0.2-rc1
+Released: June 16, 2011
 Since: March 8, 2011
 Author: Bert Oost <bertoost85@gmail.com>
+Author: Bruno Perner <b.perner@gmx.de>
+v0.2 founded from: Anselm Hannemann (www.novolo.de)
 
 To navigate up, next or previous from the current resource or from the given resource id
 Usefull if you wish a 'previous' and/or 'next' link on your page, and even possible to

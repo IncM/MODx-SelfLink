@@ -1,6 +1,13 @@
-﻿Changelog for selfLink
+Changelog for selfLink
 
-Polls 0.1-rc1 (March 8, 2011)
+selfLink 0.2-rc1 (June 14, 2011)
+====================================
+- display only published items
+- display in correct order
+- display next menuindex (and only from same menuindex)
+- works with missing IDs (not increasing ID+1 any longer, now jumping to next menuindex ID)
+
+selfLink 0.1-rc1 (March 8, 2011)
 ====================================
 - Initial project
 - Initial changelog started

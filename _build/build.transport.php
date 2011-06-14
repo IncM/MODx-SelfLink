@@ -13,7 +13,7 @@ set_time_limit(0);
 
 define('PKG_NAME', 'selfLink');
 define('PKG_NAME_LOWER', 'selflink');
-define('PKG_VERSION', '0.1');
+define('PKG_VERSION', '0.2');
 define('PKG_RELEASE', 'rc1');
 
 /* override with your own defines here (see build.config.sample.php) */
