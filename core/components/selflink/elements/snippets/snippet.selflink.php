@@ -11,7 +11,7 @@
  * linktext - The text used for the link instead of the pagetitle
  *
  * Example usage:
- * [[!selfLink? &id=`[[*id]]` &direction=`next` &tpl=`commonName`]]
+ * [[selfLink? &id=`[[*id]]` &direction=`next` &tpl=`commonName`]]
  *
  * @author Bert Oost <bertoost85@gmail.com>
  * @author Bruno Perner <b.perner@gmx.de>
@@ -23,59 +23,59 @@ $direction = $modx->getOption('direction', $scriptProperties, false);
 $tpl = $modx->getOption('tpl', $scriptProperties, false);
 $linktxt = $modx->getOption('linktext', $scriptProperties, false);
 
-if ($res = $modx->getObject('modResource', $resource)) {
-    $menuindex = $res->get('menuindex');
+if($res = $modx->getObject('modResource', $resource)) {
+    
+	$menuindex = $res->get('menuindex');
     $parentid = $res->get('parent');
     $c = $modx->newQuery('modResource');
     $c->limit(1);
 
-    switch ($direction) {
+    switch($direction) {
 
         case 'up':
         case 'parent':
             $c->where(array('id' => $parentid));
-            break;
+		break;
 
         case 'next':
         case 'prev':
         case 'previous':
-            $c->where(array('published' => '1'));
-            $c->where(array('deleted' => '0'));
-            $c->where(array('parent' => $parentid));
             $c->where(array('id:!=' => $resource));
-            break;
+            $c->where(array('parent' => $parentid));
+            $c->where(array('published' => true));
+            $c->where(array('deleted' => false));
+		break;
     }
-    switch ($direction) {
+	
+    switch($direction) {
 
         case 'next':
             $c->where("IF(menuindex = ". $menuindex .",id > ". $resource .",menuindex >". $menuindex . ")" , xPDOQuery::SQL_AND);		
-            //$c->where(array('menuindex:>=' => $menuindex));
             $c->sortby('menuindex,id','ASC');
-            break;
+		break;
 
         case 'prev':
         case 'previous':
             $c->where("IF(menuindex = ". $menuindex .",id < ". $resource .",menuindex <". $menuindex . ")" , xPDOQuery::SQL_AND);		
-            //$c->where(array('menuindex:<=' => $menuindex));
             $c->sortby('menuindex','DESC');
             $c->sortby('id','DESC');
-            break;
-    }    
-    if ($linkResource = $modx->getObject('modResource', $c)) {
+		break;
+    }
+	
+    if($linkResource = $modx->getObject('modResource', $c)) {
 
         // build placeholders
         $placeholders = array(
         	'id' => $linkResource->get('id'),
         	'pagetitle' => (!empty($linktxt)) ? $linktxt : $linkResource->get('pagetitle'), 
         	'longtitle' => (!empty($linktxt)) ? $linktxt : $linkResource->get('longtitle'),
-        	'menutitle' => (!empty($linktxt)) ?
-$linktxt : $linkResource->get('menutitle')
-        	);
+        	'menutitle' => (!empty($linktxt)) ? $linktxt : $linkResource->get('menutitle')
+		);
 
         // parse chunk
         $chunk = $modx->getObject('modChunk', array('name' => $tpl));
 
-        if (!$chunk) {
+        if(!$chunk) {
 
             $useChunk = '<a href="[[~[[+id]]]]">[[+menutitle]]</a>';
             $chunk = $modx->newObject('modChunk');
@@ -83,7 +83,7 @@ $linktxt : $linkResource->get('menutitle')
 
             return $chunk->process($placeholders, $useChunk);
         }
-
+		
         return $chunk->process($placeholders);
     }
 }
