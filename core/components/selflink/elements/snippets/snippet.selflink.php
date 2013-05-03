@@ -9,17 +9,20 @@
  * direction - To create a link in the direction up, previous or next
  * tpl - The chunkname wich is used for the view of the link
  * linktext - The text used for the link instead of the pagetitle
+ * usecss - To use custom CSS class
  *
  * Example usage:
  * [[selfLink? &id=`[[*id]]` &direction=`next` &tpl=`commonName`]]
  *
  * @author Bert Oost <bertoost85@gmail.com>
  * @author Bruno Perner <b.perner@gmx.de>
+ * @author IncM <deamonblag@gmail.com>
  * @supporter: Anselm Hannemann (www.novolo.de)
  * @version 0.2-rc1
  */
 $resource = $modx->getOption('id', $scriptProperties, $modx->resource->get('id'));
 $direction = $modx->getOption('direction', $scriptProperties, false);
+$usecss = $modx->getOption('usecss', $scriptProperties, false);
 $tpl = $modx->getOption('tpl', $scriptProperties, false);
 $linktxt = $modx->getOption('linktext', $scriptProperties, false);
 
@@ -76,8 +79,11 @@ if($res = $modx->getObject('modResource', $resource)) {
 		$chunk = $modx->getObject('modChunk', array('name' => $tpl));
 
 		if(!$chunk) {
-
-			$useChunk = '<a href="[[~[[+id]]]]">[[+menutitle:isempty=`[[+pagetitle]]`]]</a>';
+			if (!$usecss) {
+				$useChunk = "<a href='[[~[[+id]]]]'>[[+menutitle:isempty=`[[+pagetitle]]`]]</a>";
+			} else {
+				$useChunk = "<a href='[[~[[+id]]]]' class='$usecss'>[[+menutitle:isempty=`[[+pagetitle]]`]]</a>";
+			}
 			$chunk = $modx->newObject('modChunk');
 			$chunk->setCacheable(false);
 			$chunk->setContent($useChunk);

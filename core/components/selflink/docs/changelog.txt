@@ -1,5 +1,9 @@
 Changelog for selfLink
 
+selfLink 0.3-rc1 (May 4 , 2013)
+====================================
+- Add use custom CSS class
+
 selfLink 0.2-rc1 (June 14, 2011)
 ====================================
 - display only published items
